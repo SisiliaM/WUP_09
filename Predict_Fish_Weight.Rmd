@@ -56,17 +56,44 @@ subsets(regsubsets.out,statistic="adjr2",legend="bottomright",main="Adjusted R^2
 
 ### Best Models
 
-The best model for Perch would be height and weight.
+The best model for Perch would be height and width. This would be the best one because looking at the graph it is the one who had the highest adjusted R^2. That being 0.9400. The y axis allows us to see the size of the adjusted R^2.
 
 ### Best Two regressor model
 
-The best two regressor model would be height and weight.
+The best two regressor model would be height and width. This is the best one because we look at the x axis to find the subset size of 2. We than look at the groups in the subset size 2 and choose the one with the highest adjusted R^2. This time it was only Height and width so that is why it is the best two regressor model.
 
 ## Pike
 
+```{r}
+Pike <- filter(All_Fish, Species== "Pike")
+```
+
+```{r}
+Pike <- select(Pike, -Species)
+```
+
+```{r}
+regsubsets.out <-
+    regsubsets(Weight ~ .,
+               data = Pike,
+               nbest = 1,       # 1 best model for each number of predictors
+               nvmax = NULL,    # NULL for no limit on number of variables
+               force.in = NULL, force.out = NULL,
+               method = "exhaustive")
+
+summary.out <- summary(regsubsets.out)
+as.data.frame(summary.out$outmat)
+library(car)
+subsets(regsubsets.out,statistic="adjr2",legend="bottomright",main="Adjusted R^2")
+```
+
 ### Best Models
 
+The best model for Pike would be Length 1-Length 2-Length 3-Height-Width. It is the best one because looking at the graph it is the the group that had the highest adjusted R^2. That being 0.980. The adjusted R^2 is found by looking at the y-axis.
+
 ### Best Two regressor model
+
+The best two regressor model for Pike would be Length 1-Length 3. This is the best one because looking at the graph you look for the subset size, which would be in the 2. You than look at what group that was put in the 2 column which was L1-L3. It was the group of two that had the highest R^2.
 
 ## Roach
 
